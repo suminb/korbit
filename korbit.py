@@ -11,6 +11,8 @@ except:
 BASE_URL = 'https://api.korbit.co.kr/v1'
 
 
+# FIXME: This shall be replaced with a more sophisticated caching mechanism
+# in the near future
 def load_dict(filename):
     with open(filename, 'r') as f:
         return json.loads(f.read())
@@ -26,10 +28,12 @@ def get(url_suffix, **params):
 
     res = requests.get(url, params=params)
 
+    # TODO: Refactor the following section to eliminate duplicated code
+    # TODO: Read all response headers and put them in the Exception object
     if res.status_code == 200:
         return json.loads(res.text)
     else:
-        raise Exception(str(res))
+        raise Exception('{}: {}'.format(res.status_code, str(res)))
 
 
 def post(url_suffix, **post_data):
@@ -40,7 +44,7 @@ def post(url_suffix, **post_data):
     if res.status_code == 200:
         return json.loads(res.text)
     else:
-        raise Exception(str(res))
+        raise Exception('{}: {}'.format(res.status_code, str(res)))
 
 
 def access_token():
@@ -80,5 +84,11 @@ def wallet():
                nonce=nonce() + 800)
 
 
+def list_open_orders():
+    token = access_token()
+    return get('user/orders/open', access_token=token['access_token'],
+               nonce=nonce() + 200)
+
+
 if __name__ == '__main__':
-    print wallet()
+    print list_open_orders()
