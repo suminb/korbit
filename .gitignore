@@ -2,4 +2,4 @@
 .*.swp
 *.pyc
 config.py
-
+docs/build

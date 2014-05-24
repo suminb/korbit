@@ -119,8 +119,18 @@ def cancel_all_orders():
 
 def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
                 _type='limit'):
+    """Place an order.
+
+    :param order: buy | sell
+    :param price: Price per BTC
+    :param currency: KRW by default. I wouldn't assume Korbit supports any other
+                     currency at the moment.
+    :param coin_amount: Number of coin to buy/sell. This can be a fraction.
+    :param _type: limit | market
+    """
     token = access_token()
-    return post('user/orders/buy', access_token=token['access_token'],
+    url = 'user/orders/{}'.format(order)
+    return post(url, access_token=token['access_token'],
                 nonce=nonce() + 400, type=_type, currency=currency,
                 coin_amount=coin_amount, price=price)
     
