@@ -78,6 +78,19 @@ def detailed_ticker():
     return get('ticker/detailed')
 
 
+def user_info():
+    token = access_token()
+    return get('user/info', access_token=token['access_token'],
+               nonce=nonce() + 100)
+
+
+# TODO: Is it possible to get more than 10 transactions at a time?
+def user_transactions():
+    token = access_token()
+    return get('user/transactions', access_token=token['access_token'],
+               nonce=nonce() + 300)
+
+
 def wallet():
     token = access_token()
     return get('user/wallet', access_token=token['access_token'],
@@ -113,5 +126,4 @@ def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
     
 
 if __name__ == '__main__':
-    print place_order(order='buy', price=400000, currency='krw', coin_amount=0.01)
-
+    print user_transactions()
