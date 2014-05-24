@@ -89,6 +89,20 @@ def list_open_orders():
     return get('user/orders/open', access_token=token['access_token'],
                nonce=nonce() + 200)
 
+def cancel_order(order_id):
+    token = access_token()
+    return post('user/orders/cancel', access_token=token['access_token'],
+                nonce=nonce() + 600, id=order_id)
+
+
+def cancel_all_orders():
+    """Cancel all open orders.
+    TODO: Needs to be revised. Korbit provides an API call to cancel multiple
+    orders."""
+    orders = list_open_orders()
+
+    return map(cancel_order, [order['id'] for order in orders])
+
 
 if __name__ == '__main__':
-    print list_open_orders()
+    print cancel_all_orders()
