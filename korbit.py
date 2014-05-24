@@ -104,5 +104,14 @@ def cancel_all_orders():
     return map(cancel_order, [order['id'] for order in orders])
 
 
+def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
+                _type='limit'):
+    token = access_token()
+    return post('user/orders/buy', access_token=token['access_token'],
+                nonce=nonce() + 400, type=_type, currency=currency,
+                coin_amount=coin_amount, price=price)
+    
+
 if __name__ == '__main__':
-    print cancel_all_orders()
+    print place_order(order='buy', price=400000, currency='krw', coin_amount=0.01)
+
