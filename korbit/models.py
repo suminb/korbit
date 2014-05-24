@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, Float, Numeric, Text
 from sqlalchemy import create_engine
+from sqlalchemy import desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
@@ -64,6 +65,14 @@ class Transaction(Base):
             session.commit()
         except IntegrityError:
             session.rollback()
+
+    @staticmethod
+    def recent_sale_orders(limit=1):
+        return session.query(Transaction).filter_by(type='sell').order_by(desc(Transaction.completed_at)).limit(limit)
+
+    @staticmethod
+    def recent_buying_orders(limit=1):
+        return session.query(Transaction).filter_by(type='buy').order_by(desc(Transaction.completed_at)).limit(limit)
 
 
 if __name__ == '__main__':
