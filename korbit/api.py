@@ -48,6 +48,8 @@ def post(url_suffix, **post_data):
 
 
 def access_token():
+    """Retrieves an access token."""
+    
     token_dict = None
 
     try:
@@ -133,7 +135,3 @@ def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
     return post(url, access_token=token['access_token'],
                 nonce=nonce() + 400, type=_type, currency=currency,
                 coin_amount=coin_amount, price=price)
-    
-
-if __name__ == '__main__':
-    print user_transactions()
