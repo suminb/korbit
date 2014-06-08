@@ -2,8 +2,6 @@ import json
 import requests
 import time
 
-from datetime import datetime
-
 try:
     import config
 except:
@@ -57,7 +55,7 @@ def access_token():
     def has_expired(token_dict):
         """Determines whether a token has expired."""
 
-        issued_at = datetime.fromtimestamp(token_dict['issued_at'])
+        issued_at = token_dict['issued_at']
         expires_in = token_dict['expires_in']
 
         return issued_at + expires_in < time.time()
