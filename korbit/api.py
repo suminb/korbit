@@ -160,8 +160,10 @@ def get_wallet():
                nonce=nonce() + 800)
 
 
-def get_open_orders():
+def get_open_orders(order_type):
     """Retrieves open orders.
+
+    :param order_type: ``None`` | ``bid`` | ``ask``
 
     Example results
     
@@ -206,8 +208,14 @@ def get_open_orders():
 
     """
     token = access_token()
-    return get('user/orders/open', access_token=token['access_token'],
+    orders = get('user/orders/open', access_token=token['access_token'],
                nonce=nonce() + 200)
+
+    if order_type is not None:
+        orders = filter(lambda x: x['type'] == order_type, orders)
+
+    return orders
+
 
 def cancel_order(order_id):
     token = access_token()
