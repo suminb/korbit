@@ -2,6 +2,8 @@ import json
 import requests
 import time
 
+from datetime import datetime
+
 try:
     import config
 except:
@@ -51,13 +53,17 @@ def post(url_suffix, **post_data):
 
 def access_token():
     """Retrieves an access token."""
-    
-    token_dict = None
 
-    try:
-        # FIXME: This will cause an issue when the store token is expired
-        token_dict = load_dict('token.json')
-    except:
+    def has_expired(token_dict):
+        """Determines whether a token has expired."""
+
+        issued_at = datetime.fromtimestamp(token_dict['issued_at'])
+        expires_in = token_dict['expires_in']
+
+        return issued_at + expires_in < time.time()
+
+    def request_token():
+        """Requests a new token."""
         token_dict = post('oauth2/access_token',
                           client_id=config.API_KEY,
                           client_secret=config.API_SECRET,
@@ -65,7 +71,22 @@ def access_token():
                           password=config.PASSWORD,
                           grant_type='password')
 
-    store_dict('token.json', token_dict)
+        token_dict['issued_at'] = time.time()  # current Unix time
+
+        store_dict('token.json', token_dict)
+
+        return token_dict
+    
+    token_dict = None
+
+    try:
+        # FIXME: This will cause an issue when the store token is expired
+        token_dict = load_dict('token.json')
+
+        if has_expired(token_dict):
+            token_dict = request_token()
+    except:
+        token_dict = request_token()
 
     return token_dict
 
