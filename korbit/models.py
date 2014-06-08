@@ -33,13 +33,13 @@ class Transaction(Base):
     completed_at = Column(DateTime)
 
     fee_currency = Column(String)
-    fee_value = Column(Numeric(12,8))
+    fee_value = Column(Numeric(12, 8))
 
     order_id = Column(Integer)
     price_currency = Column(String)
-    price_value = Column(Numeric(12,8))
+    price_value = Column(Numeric(12, 8))
     amount_currency = Column(String)
-    amount_value = Column(Numeric(12,8))
+    amount_value = Column(Numeric(12, 8))
 
     balances = Column(Text)
 
@@ -49,15 +49,20 @@ class Transaction(Base):
         transaction = Transaction()
         transaction.id = json_object['id']
         transaction.type = json_object['type']
-        transaction.timestamp = datetime.fromtimestamp(long(json_object['timestamp']) / 1000)
-        transaction.completed_at = datetime.fromtimestamp(long(json_object['completedAt']) / 1000)
+        transaction.timestamp = datetime.fromtimestamp(
+            long(json_object['timestamp']) / 1000)
+        transaction.completed_at = datetime.fromtimestamp(
+            long(json_object['completedAt']) / 1000)
         transaction.fee_currency = json_object['fee']['currency']
         transaction.fee_value = json_object['fee']['value']
-        transaction.order_id = json_object['fillsDetail']['orderId']
-        transaction.price_currency = json_object['fillsDetail']['price']['currency']
-        transaction.price_value = json_object['fillsDetail']['price']['value']
-        transaction.amount_currency = json_object['fillsDetail']['amount']['currency']
-        transaction.amount_value = json_object['fillsDetail']['amount']['value']
+
+        details = json_object['fillsDetail']
+        transaction.order_id = details['orderId']
+        transaction.price_currency = details['price']['currency']
+        transaction.price_value = details['price']['value']
+        transaction.amount_currency = details['amount']['currency']
+        transaction.amount_value = details['amount']['value']
+
         transaction.balances = json.dumps(json_object['balances'])
 
         try:
@@ -68,11 +73,13 @@ class Transaction(Base):
 
     @staticmethod
     def recent_sale_orders(limit=1):
-        return session.query(Transaction).filter_by(type='sell').order_by(desc(Transaction.completed_at)).limit(limit)
+        return session.query(Transaction).filter_by(type='sell') \
+            .order_by(desc(Transaction.completed_at)).limit(limit)
 
     @staticmethod
     def recent_buying_orders(limit=1):
-        return session.query(Transaction).filter_by(type='buy').order_by(desc(Transaction.completed_at)).limit(limit)
+        return session.query(Transaction).filter_by(type='buy') \
+            .order_by(desc(Transaction.completed_at)).limit(limit)
 
 
 if __name__ == '__main__':

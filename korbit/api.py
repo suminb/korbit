@@ -24,6 +24,7 @@ def store_dict(filename, dic):
 
 
 def get(url_suffix, **params):
+    """Initiates an HTTP GET request."""
     url = '{}/{}'.format(BASE_URL, url_suffix)
 
     res = requests.get(url, params=params)
@@ -37,6 +38,7 @@ def get(url_suffix, **params):
 
 
 def post(url_suffix, **post_data):
+    """Initiates an HTTP POST request."""
     url = '{}/{}'.format(BASE_URL, url_suffix)
 
     res = requests.post(url, data=post_data)
@@ -72,34 +74,118 @@ def nonce():
     return long(time.time() * 1000)
 
 
-def constants():
+def get_constants():
     return get('constants')
 
 
-def detailed_ticker():
+def get_orderbook():
+    """Retrieves all open orders (public).
+
+    Example results
+
+    .. code-block:: python
+
+        {
+            u'timestamp': 1386135077000,
+            u'bids': [
+                [
+                    u'677300',
+                    u'3.50000000',
+                    u'1'
+                ],
+                ...
+            ],
+            u'asks': [
+                [
+                    u'679500',
+                    u'0.15854124',
+                    u'2'
+                ],
+                ...
+            ]
+        }
+
+    For ``bids`` and ``asks`` tuples,
+
+    * First column represents the bidding or asking price per BTC
+    * Second column represents the total quantity (BTC)
+    * Third column represents the total number of orders of that price
+
+    """
+    return get('orderbook')
+
+
+def get_detailed_ticker():
     return get('ticker/detailed')
 
 
-def user_info():
+def get_user_info():
     token = access_token()
     return get('user/info', access_token=token['access_token'],
                nonce=nonce() + 100)
 
 
 # TODO: Is it possible to get more than 10 transactions at a time?
-def user_transactions():
+def get_user_transactions(category=None):
+    """Retrieves user transactions.
+    :param category: fills | fiats | coins
+    """
     token = access_token()
     return get('user/transactions', access_token=token['access_token'],
                nonce=nonce() + 300)
 
 
-def wallet():
+def get_wallet():
     token = access_token()
     return get('user/wallet', access_token=token['access_token'],
                nonce=nonce() + 800)
 
 
-def list_open_orders():
+def get_open_orders():
+    """Retrieves open orders.
+
+    Example results
+    
+    .. code-block:: python
+
+        [
+            {
+                u'open': {
+                    u'currency': u'btc',
+                    u'value': u'0.02000000'
+                },
+                u'timestamp': 1402214947000,
+                u'price': {
+                    u'currency': u'krw',
+                    u'value': u'500000'
+                },
+                u'total': {
+                    u'currency': u'btc',
+                    u'value': u'0.02000000'
+                },
+                u'type': u'bid',
+                u'id': u'138502'
+            },
+            {
+                u'open': {
+                    u'currency': u'btc',
+                    u'value': u'0.01000000'
+                },
+                u'timestamp': 1402214920000,
+                u'price': {
+                    u'currency': u'krw',
+                    u'value': u'600000'
+                },
+                u'total': {
+                    u'currency': u'btc',
+                    u'value': u'0.01000000'
+                },
+                u'type': u'bid',
+                u'id': u'138501'
+            }
+        ]
+
+    """
     token = access_token()
     return get('user/orders/open', access_token=token['access_token'],
                nonce=nonce() + 200)
@@ -123,12 +209,12 @@ def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
                 _type='limit'):
     """Place an order.
 
-    :param order: buy | sell
+    :param order: ``buy`` | ``sell``
     :param price: Price per BTC
     :param currency: KRW by default. I wouldn't assume Korbit supports any other
                      currency at the moment.
     :param coin_amount: Number of coin to buy/sell. This can be a fraction.
-    :param _type: limit | market
+    :param _type: ``limit`` | ``market``
     """
     token = access_token()
     url = 'user/orders/{}'.format(order)

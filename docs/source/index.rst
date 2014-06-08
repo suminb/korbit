@@ -11,6 +11,12 @@ Contents:
 .. automodule:: korbit
    :members:
 
+.. automodule:: korbit.api
+   :members:
+
+.. automodule:: korbit.models
+   :members:
+
 
 Indices and tables
 ==================
