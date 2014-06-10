@@ -13,8 +13,5 @@ def test_get_orderbook():
 def test_get_user_info():
 	info = get_user_info()
 
-	assert 'name' in info
-	assert 'gender' in info
-	assert 'phone' in info
-	assert 'birthday' in info
+	assert 'email' in info
 	assert 'prefs' in info and type(info['prefs']) == dict
