@@ -1,6 +1,7 @@
 import json
 import requests
 import time
+import sys
 
 try:
     import config
@@ -90,7 +91,8 @@ def access_token():
 
 
 def nonce():
-    return long(time.time() * 1000)
+    cast_function = int if sys.version > '3' else long
+    return cast_function(time.time() * 1000)
 
 
 def get_constants():
