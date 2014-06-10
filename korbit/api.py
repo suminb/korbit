@@ -2,15 +2,11 @@ import json
 import requests
 import time
 import sys
+import os
 
-try:
-    import config
-except:
-    raise Exception('Could not import config.py')
-
-
-BASE_URL = 'https://api.korbit.co.kr/v1'
-
+PROD_URL = 'https://api.korbit.co.kr/v1'
+TEST_URL = 'https://api-test.korbit.co.kr/v1'
+BASE_URL = PROD_URL if os.environ.get('KORBIT_MODE') == 'prod' else TEST_URL
 
 # FIXME: This shall be replaced with a more sophisticated caching mechanism
 # in the near future
@@ -47,7 +43,8 @@ def post(url_suffix, **post_data):
     if res.status_code == 200:
         return json.loads(res.text)
     else:
-        raise Exception('{}: {}'.format(res.status_code, str(res)))
+        raise Exception('{}: {} {}'.format(res.status_code, str(res.headers),
+                        str(res)))
 
 
 def access_token():
@@ -64,10 +61,10 @@ def access_token():
     def request_token():
         """Requests a new token."""
         token_dict = post('oauth2/access_token',
-                          client_id=config.env.API_KEY,
-                          client_secret=config.env.API_SECRET,
-                          username=config.env.API_USERNAME,
-                          password=config.env.API_PASSWORD,
+                          client_id=os.environ['KORBIT_API_KEY'],
+                          client_secret=os.environ['KORBIT_API_SECRET'],
+                          username=os.environ['KORBIT_API_USERNAME'],
+                          password=os.environ['KORBIT_API_PASSWORD'],
                           grant_type='password')
 
         token_dict['issued_at'] = time.time()  # current Unix time
