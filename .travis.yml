@@ -1,0 +1,14 @@
+language: python
+python:
+- '2.7'
+install:
+- pip install -r requirements.txt --use-mirrors
+script:
+- py.test tests
+env:
+  global:
+  - TIMEOUT=1000
+  - secure: FfZaGSApLnlXvEhdL+5sQrmFV1xi59NSAlekzSIXmpq0CBFhf8h3bk2ivIgNMeh82qXTau49oseYPALl3mOM6sw+FG3foRY5ydbfxNjWQ6E7r9zo2UE0KZYcrrFc9Kq9CoAd7x1tLGYvqbWC4y2T2N/JdB+q646BzrtK7zw3z7s=
+  - secure: AbeN8w+rNh0pPlnPVBSLyZ+7M/lRQOsqI4800U4iMp9o4Id0c5nIDmbywoJNwGvEFTgQITOed/w9U3lpoJ8zYyDImNoZRhDleHZoMsHgbjtWXL0GWe9skTBmZWiu+30FrqDVmhlfwZiZE8NoWniJD/W5I7GCdiRXnKcijAyiA6A=
+  - secure: cChSnJzXvMjGSQ2E9xUICN0PAIBcBvhdZzoz0zyYmwwad7ZVONu1yo23kfV645zpVdMWSkjxagqJx6SUAgthyZwAT5rsTiY0oSSBpb2nHhUuY2FV2+KqmR60bOm1BZFLnRL4krqzgR1FSmpNziaiYXJ+fsh0eXsZpcqyixfbAyw=
+  - secure: FsGtN7/j94DFqNCypVEh2US0N5raqazYA/Wn15uIHDSUXl9aTHPWnRwKobM4mQA72d52fMeV0qK9BgG/XmDcbNhEk6+u6GClZ0aaTxWMPlZQ0CnYzohW/M45Zg9BdQvIwwtvapmTOhssvYOW0MaSOmCUC6vivgyoT5nkUXnf9LU=
