@@ -63,10 +63,10 @@ def access_token():
     def request_token():
         """Requests a new token."""
         token_dict = post('oauth2/access_token',
-                          client_id=config.API_KEY,
-                          client_secret=config.API_SECRET,
-                          username=config.USERNAME,
-                          password=config.PASSWORD,
+                          client_id=config.env.API_KEY,
+                          client_secret=config.env.API_SECRET,
+                          username=config.env.API_USERNAME,
+                          password=config.env.API_PASSWORD,
                           grant_type='password')
 
         token_dict['issued_at'] = time.time()  # current Unix time
