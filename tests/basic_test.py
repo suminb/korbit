@@ -1,6 +1,6 @@
 from __future__ import absolute_import  
+from korbit.api import *
 
-from korbit.api import get_orderbook, get_user_info
 
 def test_get_orderbook():
 	orderbook = get_orderbook()
@@ -15,3 +15,22 @@ def test_get_user_info():
 
 	assert 'email' in info
 	assert 'prefs' in info and type(info['prefs']) == dict
+
+
+def test_buying_order():
+    # TODO: Check for the current balance before running this test case
+    res = place_order(order='buy', price=100000, coin_amount=0.1)
+
+    assert res['orderId'] is not None
+    assert res['status'] == 'success'
+
+    cancel_order(res['orderId'])
+
+
+def test_selling_order():
+    res = place_order(order='sell', price=1000000, coin_amount=0.1)
+
+    assert res['orderId'] is not None
+    assert res['status'] == 'success'
+
+    cancel_order(res['orderId'])
