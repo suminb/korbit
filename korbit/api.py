@@ -3,10 +3,18 @@ import requests
 import time
 import sys
 import os
+import logging
 
 PROD_URL = 'https://api.korbit.co.kr/v1'
 TEST_URL = 'https://api-test.korbit.co.kr/v1'
 BASE_URL = PROD_URL if os.environ.get('KORBIT_MODE') == 'prod' else TEST_URL
+
+logger = logging.getLogger('korbit')
+handler = logging.StreamHandler(sys.stderr)
+handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
+
 
 # FIXME: This shall be replaced with a more sophisticated caching mechanism
 # in the near future
@@ -242,6 +250,9 @@ def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
     :param coin_amount: Number of coin to buy/sell. This can be a fraction.
     :param _type: ``limit`` | ``market``
     """
+    logger.info('Placing a {} order for {}BTC at {}{}'.format(
+                order, coin_amount, price, currency.upper()))
+
     token = access_token()
     url = 'user/orders/{}'.format(order)
     return post(url, access_token=token['access_token'],
