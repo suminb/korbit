@@ -4,7 +4,6 @@ python:
 - '3.4'
 install:
 - pip install -r requirements.txt --use-mirrors
-- pip install pytest-cov coveralls
 script:
 - py.test tests --cov korbit --durations=10
 after_success:
