@@ -5,7 +5,9 @@ python:
 install:
 - pip install -r requirements.txt --use-mirrors
 script:
-- py.test tests
+- py.test tests --cov korbit --durations=10
+after_success:
+- coveralls
 env:
   global:
   - TIMEOUT=1000

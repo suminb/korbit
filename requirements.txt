@@ -2,4 +2,5 @@ requests == 2.3
 sphinx
 sqlalchemy == 0.9
 pytest
-python-coveralls
+coveralls
+pytest-cov
