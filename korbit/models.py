@@ -24,9 +24,16 @@ class User(Base):
 
 
 class Transaction(Base):
+    """
+    An example of `coin-in` transaction:
+    {u'coinsDetail': {u'amount': {u'currency': u'btc', u'value': u'2.40000000'}, u'transactionId': u'482af6f1eda81617826a4326fad6fd06273c795b204c5e4658853c27f16e22c5'}, u'completedAt': 1402448277000, u'timestamp': 1402448355000, u'balances': [{u'currency': u'btc', u'value': u'8.80000000'}, {u'currency': u'krw', u'value': u'509952'}], u'type': u'coin-in', u'id': u'5539'}
+    """
+
     __tablename__ = 'transaction'
 
     id = Column(Integer, primary_key=True)
+
+    #: `sell`, `buy`, `coin-in`
     type = Column(String)
 
     timestamp = Column(DateTime)
@@ -53,15 +60,23 @@ class Transaction(Base):
             long(json_object['timestamp']) / 1000)
         transaction.completed_at = datetime.fromtimestamp(
             long(json_object['completedAt']) / 1000)
-        transaction.fee_currency = json_object['fee']['currency']
-        transaction.fee_value = json_object['fee']['value']
 
-        details = json_object['fillsDetail']
-        transaction.order_id = details['orderId']
-        transaction.price_currency = details['price']['currency']
-        transaction.price_value = details['price']['value']
-        transaction.amount_currency = details['amount']['currency']
-        transaction.amount_value = details['amount']['value']
+        if 'fee' in json_object:
+            transaction.fee_currency = json_object['fee']['currency']
+            transaction.fee_value = json_object['fee']['value']
+
+        if 'fillsDetail' in json_object:
+            details = json_object['fillsDetail']
+            transaction.order_id = details['orderId']
+            transaction.price_currency = details['price']['currency']
+            transaction.price_value = details['price']['value']
+            transaction.amount_currency = details['amount']['currency']
+            transaction.amount_value = details['amount']['value']
+
+        if 'coinsDetail' in json_object:
+            details = json_object['coinsDetail']
+            transaction.amount_currency = details['amount']['currency']
+            transaction.amount_value = details['amount']['value']
 
         transaction.balances = json.dumps(json_object['balances'])
 

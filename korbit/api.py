@@ -80,7 +80,7 @@ def access_token():
         store_dict('token.json', token_dict)
 
         return token_dict
-    
+
     token_dict = None
 
     try:
@@ -173,7 +173,7 @@ def get_open_orders(order_type):
     :param order_type: ``None`` | ``bid`` | ``ask``
 
     Example results
-    
+
     .. code-block:: python
 
         [
