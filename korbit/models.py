@@ -55,6 +55,15 @@ class Transaction(Base):
             self.amount_value, self.amount_currency,
             self.price_value, self.price_currency)
 
+    def is_profitable(self, order):
+        """
+        :param order: An instance of Order class
+        """
+        if self.type == 'buy' and order.type == 'bid':
+            return self.price_value < order.price
+        else:
+            raise Exception('Unsupported evaluation')
+
     @staticmethod
     def insert(json_object):
         # TODO: Refactor the following section

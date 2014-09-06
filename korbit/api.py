@@ -1,4 +1,4 @@
-from models import Order
+from korbit.models import Order
 
 import json
 import requests
