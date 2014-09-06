@@ -1,3 +1,5 @@
+from models import Order
+
 import json
 import requests
 import time
@@ -138,7 +140,10 @@ def get_orderbook(type=None):
     * Third column represents the total number of orders of that price
 
     """
+
     orderbook = get('orderbook')
+    orderbook['asks'] = map(lambda x: Order('ask', x), orderbook['asks'])
+    orderbook['bids'] = map(lambda x: Order('bid', x), orderbook['bids'])
 
     if type in ('bids', 'asks'):
         return orderbook[type]
