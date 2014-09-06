@@ -50,6 +50,11 @@ class Transaction(Base):
 
     balances = Column(Text)
 
+    def __repr__(self):
+        return 'Transaction ({}, {}) {}{}@{}{}'.format(self.id, self.type,
+            self.amount_value, self.amount_currency,
+            self.price_value, self.price_currency)
+
     @staticmethod
     def insert(json_object):
         # TODO: Refactor the following section
