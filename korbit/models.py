@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Float, Numeric, Text
+from sqlalchemy import Column, Integer, String, DateTime, Numeric, Text
 from sqlalchemy import create_engine
 from sqlalchemy import desc
 from sqlalchemy.ext.declarative import declarative_base
@@ -51,7 +51,8 @@ class Transaction(Base):
     balances = Column(Text)
 
     def __repr__(self):
-        return 'Transaction ({}, {}) {}{}@{}{}'.format(self.id, self.type,
+        return 'Transaction ({}, {}) {}{}@{}{}'.format(
+            self.id, self.type,
             self.amount_value, self.amount_currency,
             self.price_value, self.price_currency)
 
@@ -127,7 +128,8 @@ class Order(object):
         self.order_count = int(raw[2])
 
     def __repr__(self):
-        return 'Order ({}, {}, {}, {})'.format(self.type, self.price,
+        return 'Order ({}, {}, {}, {})'.format(
+            self.type, self.price,
             self.amount, self.order_count)
 
 
