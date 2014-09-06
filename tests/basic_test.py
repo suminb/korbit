@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from korbit.api import *
-
+from collections import Iterable
 
 def test_get_orderbook():
     orderbook = get_orderbook()
@@ -14,12 +14,12 @@ def test_get_orderbook_by_type():
     orderbook_bids = get_orderbook('bids')
 
     # NOTE: Is this enough?
-    assert isinstance(orderbook_bids, list)
+    assert isinstance(orderbook_bids, Iterable)
 
     orderbook_asks = get_orderbook('asks')
 
     # NOTE: Is this enough?
-    assert isinstance(orderbook_asks, list)
+    assert isinstance(orderbook_asks, Iterable)
 
 
 def test_get_user_info():
