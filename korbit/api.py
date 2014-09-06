@@ -104,7 +104,7 @@ def get_constants():
     return get('constants')
 
 
-def get_orderbook():
+def get_orderbook(type=None):
     """Retrieves all open orders (public).
 
     Example results
@@ -138,7 +138,12 @@ def get_orderbook():
     * Third column represents the total number of orders of that price
 
     """
-    return get('orderbook')
+    orderbook = get('orderbook')
+
+    if type in ('bids', 'asks'):
+        return orderbook[type]
+    else:
+        return orderbook
 
 
 def get_detailed_ticker():
