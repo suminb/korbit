@@ -98,6 +98,23 @@ def nonce():
 
 
 def get_constants():
+    """Get constant values from Korbit.
+
+    Example results:
+        {
+            u'maxBtcPrice': u'100000000',
+            u'maxBtcWithdrawal': u'1',
+            u'minBtcOrder': u'0.01',
+            u'minBtcPrice': u'1000',
+            u'maxBtcOrder': u'21000000',
+            u'btcWithdrawalFee': u'0.00020',
+            u'transactionFee': u'0.0',
+            u'krwWithdrawalFee': u'1000',
+            u'minKrwWithdrawal': u'2000',
+            u'minBtcWithdrawal': u'0.00010',
+            u'maxKrwWithdrawal': u'10000000'
+        }
+    """
     return get('constants')
 
 
@@ -221,7 +238,7 @@ def get_open_orders(order_type):
     """
     token = access_token()
     orders = get('user/orders/open', access_token=token['access_token'],
-               nonce=nonce() + 200)
+                 nonce=nonce() + 200)
 
     if order_type is not None:
         orders = filter(lambda x: x['type'] == order_type, orders)
@@ -239,13 +256,13 @@ def cancel_all_orders():
     """Cancel all open orders.
     TODO: Needs to be revised. Korbit provides an API call to cancel multiple
     orders."""
-    orders = list_open_orders()
+    orders = get_open_orders()
 
     return map(cancel_order, [order['id'] for order in orders])
 
 
 def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
-                _type='limit'):
+                order_type='limit'):
     """Place an order.
 
     :param order: ``buy`` | ``sell``
@@ -253,16 +270,17 @@ def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
     :param currency: KRW by default. I wouldn't assume Korbit supports any other
                      currency at the moment.
     :param coin_amount: Number of coin to buy/sell. This can be a fraction.
-    :param _type: ``limit`` | ``market``
+    :param order_type: ``limit`` (at a specified price) | ``market`` (at the
+                       market price)
     """
     # price must be an integer
     price = int(price)
 
     log.info('Placing a {} order for {}BTC at {}{}'.format(
-                order, coin_amount, price, currency.upper()))
+             order, coin_amount, price, currency.upper()))
 
     token = access_token()
     url = 'user/orders/{}'.format(order)
     return post(url, access_token=token['access_token'],
-                nonce=nonce() + 400, type=_type, currency=currency,
+                nonce=nonce() + 400, type=order_type, currency=currency,
                 coin_amount=coin_amount, price=price)

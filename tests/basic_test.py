@@ -2,6 +2,23 @@ from __future__ import absolute_import
 from korbit.api import *
 from collections import Iterable
 
+
+def test_get_constants():
+    constants = get_constants()
+
+    assert 'maxBtcPrice' in constants
+    assert 'maxBtcWithdrawal' in constants
+    assert 'minBtcOrder' in constants
+    assert 'minBtcPrice' in constants
+    assert 'maxBtcOrder' in constants
+    assert 'btcWithdrawalFee' in constants
+    assert 'transactionFee' in constants
+    assert 'krwWithdrawalFee' in constants
+    assert 'minKrwWithdrawal' in constants
+    assert 'minBtcWithdrawal' in constants
+    assert 'maxKrwWithdrawal' in constants
+
+
 def test_get_orderbook():
     orderbook = get_orderbook()
 
