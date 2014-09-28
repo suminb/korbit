@@ -184,6 +184,38 @@ def get_user_transactions(category=None):
 
 
 def get_wallet():
+    """
+    Example results:
+        {
+            u'available': [
+                {u'currency': u'krw', u'value': u'2278998'},
+                {u'currency': u'btc', u'value': u'4.90000000'}
+            ],
+            u'fee': u'0.0',
+            u'pendingNonmemberOut': [
+                {u'currency': u'krw', u'value': u'0'},
+                {u'currency': u'btc', u'value': u'0'}
+            ],
+            u'pendingOrders': [
+                {u'currency': u'krw', u'value': u'0'},
+                {u'currency': u'btc', u'value': u'0'}
+            ],
+            u'pendingOut': [
+                {u'currency': u'krw', u'value': u'0'},
+                {u'currency': u'btc', u'value': u'0'}
+            ],
+            u'in': [
+                {u'alias': u'default',
+                 u'address': {u'address': u'(bitcoin wallet address)'},
+                 u'currency': u'btc'}
+            ],
+            u'balance': [
+                {u'currency': u'krw', u'value': u'2278998'},
+                {u'currency': u'btc', u'value': u'4.90000000'}
+            ],
+            u'out': []
+        }
+    """
     token = access_token()
     return get('user/wallet', access_token=token['access_token'],
                nonce=nonce() + 800)

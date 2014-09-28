@@ -19,6 +19,14 @@ def test_get_constants():
     assert 'maxKrwWithdrawal' in constants
 
 
+def test_get_wallet():
+    wallet = get_wallet()
+
+    assert 'available' in wallet
+    assert 'fee' in wallet
+    # TODO: Other keys need to be tested as well
+
+
 def test_get_orderbook():
     orderbook = get_orderbook()
 
