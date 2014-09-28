@@ -27,7 +27,7 @@ class Transaction(Base):
     """
     An example of `coin-in` transaction:
     {u'coinsDetail': {u'amount': {u'currency': u'btc', u'value': u'2.40000000'}, u'transactionId': u'482af6f1eda81617826a4326fad6fd06273c795b204c5e4658853c27f16e22c5'}, u'completedAt': 1402448277000, u'timestamp': 1402448355000, u'balances': [{u'currency': u'btc', u'value': u'8.80000000'}, {u'currency': u'krw', u'value': u'509952'}], u'type': u'coin-in', u'id': u'5539'}
-    """
+    """  # noqa
 
     __tablename__ = 'transaction'
 
@@ -100,6 +100,22 @@ class Transaction(Base):
             session.commit()
         except IntegrityError:
             session.rollback()
+
+    @staticmethod
+    def all(type=None, limit=None):
+        """
+        :param type: ``buy`` | ``sell``
+        :param limit: Maximum number of records to retrieve
+        """
+        query = session.query(Transaction)
+
+        if type is not None:
+            query = query.filter_by(type=type)
+
+        if limit is not None:
+            query = query.limit(limit)
+
+        return query
 
     @staticmethod
     def recent_sale_orders(limit=1):
