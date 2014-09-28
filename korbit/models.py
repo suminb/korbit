@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 
 from datetime import datetime
+from math import ceil, floor
 
 import json
 
@@ -147,6 +148,21 @@ class Order(object):
         return 'Order ({}, {}, {}, {})'.format(
             self.type, self.price,
             self.amount, self.order_count)
+
+    @property
+    def rounded_price(self):
+        """Round up or down the price to the closest 100KRW."""
+        return round(self.price, -2)
+
+    @property
+    def ceilinged_price(self):
+        """Round up the price to the closest 100KRW."""
+        return ceil(self.price / 100.0) * 100
+
+    @property
+    def floored_price(self):
+        """Round down the price to the closest 100KRW."""
+        return floor(self.price / 100.0) * 100
 
 
 if __name__ == '__main__':

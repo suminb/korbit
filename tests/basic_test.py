@@ -46,3 +46,11 @@ def test_selling_order():
     assert res['status'] == 'success'
 
     cancel_order(res['orderId'])
+
+
+def test_rounded_price():
+    order = Order(type='sell', raw=(500123, 0.1, 1))
+    assert order.price == 500123
+    assert order.rounded_price == 500100
+    assert order.ceilinged_price == 500200
+    assert order.floored_price == 500100

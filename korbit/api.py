@@ -255,6 +255,9 @@ def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
     :param coin_amount: Number of coin to buy/sell. This can be a fraction.
     :param _type: ``limit`` | ``market``
     """
+    # price must be an integer
+    price = int(price)
+
     log.info('Placing a {} order for {}BTC at {}{}'.format(
                 order, coin_amount, price, currency.upper()))
 
