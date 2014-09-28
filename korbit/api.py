@@ -8,7 +8,7 @@ import os
 import logging
 
 PROD_URL = 'https://api.korbit.co.kr/v1'
-TEST_URL = 'https://api-test.korbit.co.kr/v1'
+TEST_URL = 'https://api.korbit-test.com/v1'
 BASE_URL = PROD_URL if os.environ.get('KORBIT_MODE') == 'prod' else TEST_URL
 
 logger = logging.getLogger('korbit')
