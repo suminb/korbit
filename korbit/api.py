@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from korbit.models import Order
 from logbook import Logger
 import json
@@ -93,6 +94,19 @@ def access_token():
 
 
 def nonce():
+    """According to the official documentation:
+
+    Nonce & Access Token
+    ````````````````````
+    API 중에 v1/user 로 시작하는 API는 특정 사용자의
+    계정을 접근, 변경할 수 있는 API로, 사용자 인증을 통해 발부받은 Access
+    Token과 순차적으로 증가하는 양수 값인 Nonce를 지정해야 한다. Nonce는 특정
+    요청이 두 번 수행되는 것을 방지하고, 하나의 계정을 두 대 이상의
+    클라이언트가 동시접근하는 것을 막기 위해서, 서버상에서 마지막으로 받았던
+    요청의 Nonce값보다 새로 받은 요청의 Nonce값이 더 큰 경우에만 요청을
+    처리한다. Nonce는 GET요청의 경우 URL에 parameter로 전달하고, POST요청의
+    경우 body에 다른 파라미터와 함께 전달한다.
+    """
     cast_function = int if sys.version > '3' else long
     return cast_function(time.time() * 1000)
 
@@ -170,7 +184,7 @@ def get_detailed_ticker():
 def get_user_info():
     token = access_token()
     return get('user/info', access_token=token['access_token'],
-               nonce=nonce() + 100)
+               nonce=nonce())
 
 
 # TODO: Is it possible to get more than 10 transactions at a time?
@@ -180,7 +194,7 @@ def get_user_transactions(category=None):
     """
     token = access_token()
     return get('user/transactions', access_token=token['access_token'],
-               nonce=nonce() + 300)
+               nonce=nonce())
 
 
 def get_wallet():
@@ -218,7 +232,7 @@ def get_wallet():
     """
     token = access_token()
     return get('user/wallet', access_token=token['access_token'],
-               nonce=nonce() + 800)
+               nonce=nonce())
 
 
 def get_open_orders(order_type):
@@ -270,7 +284,7 @@ def get_open_orders(order_type):
     """
     token = access_token()
     orders = get('user/orders/open', access_token=token['access_token'],
-                 nonce=nonce() + 200)
+                 nonce=nonce())
 
     if order_type is not None:
         orders = filter(lambda x: x['type'] == order_type, orders)
@@ -281,7 +295,7 @@ def get_open_orders(order_type):
 def cancel_order(order_id):
     token = access_token()
     return post('user/orders/cancel', access_token=token['access_token'],
-                nonce=nonce() + 600, id=order_id)
+                nonce=nonce(), id=order_id)
 
 
 def cancel_all_orders():
@@ -314,5 +328,5 @@ def place_order(order='buy', price=0.0, currency='krw', coin_amount=0.0,
     token = access_token()
     url = 'user/orders/{}'.format(order)
     return post(url, access_token=token['access_token'],
-                nonce=nonce() + 400, type=order_type, currency=currency,
+                nonce=nonce(), type=order_type, currency=currency,
                 coin_amount=coin_amount, price=price)
