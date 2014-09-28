@@ -1,13 +1,19 @@
 language: python
+
 python:
 - '2.7'
 - '3.4'
+
 install:
 - pip install -r requirements.txt --use-mirrors
+- pip install -r tests/requirements.txt --use-mirrors
+
 script:
 - py.test tests --cov korbit --durations=10
+
 after_success:
 - coveralls
+
 env:
   global:
   - TIMEOUT=1000
