@@ -6,8 +6,8 @@ python:
 - 'pypy'
 
 install:
-- pip install -r requirements.txt --use-mirrors
-- pip install -r tests/requirements.txt --use-mirrors
+- pip install -r requirements.txt
+- pip install -r tests/requirements.txt
 
 script:
 - py.test tests --cov korbit --durations=10
