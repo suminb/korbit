@@ -13,7 +13,7 @@ import json
 
 Base = declarative_base()
 
-engine = create_engine('sqlite:///korbit.db', echo=True)
+engine = create_engine('sqlite:///korbit.db', echo=False)
 Session = sessionmaker(bind=engine)
 
 session = Session()
@@ -51,6 +51,9 @@ class Transaction(Base):
 
     balances = Column(Text)
 
+    #: Auxiliary data
+    # aux = Column(Text)
+
     def __repr__(self):
         return 'Transaction ({}, {}) {}{}@{}{}'.format(
             self.id, self.type,
@@ -65,6 +68,15 @@ class Transaction(Base):
             return self.price_value < order.price
         else:
             raise Exception('Unsupported evaluation')
+
+    def is_marked_for_sale(self):
+        """Indicate whether the purchase (type=buy) transaction has been marked
+        to be sold."""
+        raise NotImplementedError()
+
+    def mark_for_sale(self):
+        """Mark the purchase (type=buy) transaction to be sold."""
+        raise NotImplementedError()
 
     @staticmethod
     def insert(json_object):
@@ -104,7 +116,7 @@ class Transaction(Base):
 
     @staticmethod
     def all(type=None, limit=None):
-        """
+        """Retrieve all transactions.
         :param type: ``buy`` | ``sell``
         :param limit: Maximum number of records to retrieve
         """
