@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from korbit.models import Order
 from logbook import Logger
+from operator import attrgetter
 import json
 import requests
 import time
@@ -9,7 +10,7 @@ import os
 
 PROD_URL = 'https://api.korbit.co.kr/v1'
 TEST_URL = 'https://api.korbit-test.com/v1'
-BASE_URL = PROD_URL if os.environ.get('KORBIT_MODE') == 'prod' else TEST_URL
+BASE_URL = PROD_URL if os.environ.get('KORBIT_ENV') == 'prod' else TEST_URL
 
 log = Logger('korbit')
 
@@ -132,7 +133,7 @@ def get_constants():
     return get('constants')
 
 
-def get_orderbook(type=None):
+def get_orderbook(order_type=None):
     """Retrieves all open orders (public).
 
     Example results
@@ -168,11 +169,14 @@ def get_orderbook(type=None):
     """
 
     orderbook = get('orderbook')
-    orderbook['asks'] = map(lambda x: Order('ask', x), orderbook['asks'])
-    orderbook['bids'] = map(lambda x: Order('bid', x), orderbook['bids'])
+    orderbook['asks'] = [Order('ask', x) for x in orderbook['asks']]
+    orderbook['asks'].sort(key=attrgetter('price'))
 
-    if type in ('bids', 'asks'):
-        return orderbook[type]
+    orderbook['bids'] = [Order('bid', x) for x in orderbook['bids']]
+    orderbook['bids'].sort(key=attrgetter('price'), reverse=True)
+
+    if order_type in ('bids', 'asks'):
+        return orderbook[order_type]
     else:
         return orderbook
 

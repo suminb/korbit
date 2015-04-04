@@ -34,6 +34,15 @@ def test_get_orderbook():
     assert 'bids' in orderbook
     assert 'asks' in orderbook
 
+    assert type(orderbook['bids']) == list
+    assert type(orderbook['asks']) == list
+
+    for order in orderbook['bids']:
+        assert type(order) == Order
+
+    for order in orderbook['asks']:
+        assert type(order) == Order
+
 
 def test_get_orderbook_by_type():
     orderbook_bids = get_orderbook('bids')
@@ -74,7 +83,7 @@ def test_selling_order():
 
 
 def test_rounded_price():
-    order = Order(type='sell', raw=(500123, 0.1, 1))
+    order = Order(order_type='sell', raw=(500123, 0.1, 1))
     assert order.price == 500123
     assert order.rounded_price == 500100
     assert order.ceilinged_price == 500200
