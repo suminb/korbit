@@ -83,7 +83,7 @@ def test_selling_order():
 
 
 def test_rounded_price():
-    order = Order(type='sell', raw=(500123, 0.1, 1))
+    order = Order(order_type='sell', raw=(500123, 0.1, 1))
     assert order.price == 500123
     assert order.rounded_price == 500100
     assert order.ceilinged_price == 500200
