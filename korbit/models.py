@@ -143,18 +143,46 @@ class Transaction(Base):
 
 class Order(object):
     """A single row in the orderbook."""
-    def __init__(self, order_type, raw):
+    def __init__(self, order_type, raw=None, price=None, amount=None,
+                 order_count=None):
         """Default initializer.
 
         :param order_type: An order type (`ask` or `bid`)
+        :type order_type: str
+
         :param raw: A list of three elements containing price, amount, and the
             number of orders.
+        :type raw: list
+
+        :type price: float
+        :type amount: float
+        :type order_count: int
         """
 
         self.order_type = order_type
-        self.price = float(raw[0])
-        self.amount = float(raw[1])
-        self.order_count = int(raw[2])
+
+        # It must be one of the following two cases:
+        # 1. `raw` parameter is given
+        # 2. All three of `price`, `amount`, `order_count` parameters are given
+
+        if raw is not None:
+            assert type(raw) == list
+            assert len(raw) == 3
+
+            self.price = float(raw[0])
+            self.amount = float(raw[1])
+            self.order_count = int(raw[2])
+
+        elif price is not None and \
+            amount is not None and \
+            order_count is not None:
+
+            self.price = price
+            self.amount = amount
+            self.order_count = order_count
+        else:
+            raise RuntimeError('Invalid parameters. Either raw or all three'
+                               ' of price, amount, order_count must be given.')
 
     def __repr__(self):
         return 'Order ({}, {}, {}, {})'.format(
