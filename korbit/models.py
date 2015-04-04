@@ -166,7 +166,7 @@ class Order(object):
         # 2. All three of `price`, `amount`, `order_count` parameters are given
 
         if raw is not None:
-            assert type(raw) == list
+            assert type(raw) in (list, tuple)
             assert len(raw) == 3
 
             self.price = float(raw[0])
