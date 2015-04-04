@@ -143,15 +143,15 @@ class Transaction(Base):
 
 class Order(object):
     """A single row in the orderbook."""
-    def __init__(self, type, raw):
+    def __init__(self, order_type, raw):
         """Default initializer.
 
-        :param type: An order type (`ask` or `bid`)
+        :param order_type: An order type (`ask` or `bid`)
         :param raw: A list of three elements containing price, amount, and the
             number of orders.
         """
 
-        self.type = type
+        self.order_type = type
         self.price = float(raw[0])
         self.amount = float(raw[1])
         self.order_count = int(raw[2])

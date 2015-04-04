@@ -34,6 +34,15 @@ def test_get_orderbook():
     assert 'bids' in orderbook
     assert 'asks' in orderbook
 
+    assert type(orderbook['bids']) == list
+    assert type(orderbook['asks']) == list
+
+    for order in orderbook['bids']:
+        assert type(order) == Order
+
+    for order in orderbook['asks']:
+        assert type(order) == Order
+
 
 def test_get_orderbook_by_type():
     orderbook_bids = get_orderbook('bids')
