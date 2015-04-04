@@ -151,14 +151,14 @@ class Order(object):
             number of orders.
         """
 
-        self.order_type = type
+        self.order_type = order_type
         self.price = float(raw[0])
         self.amount = float(raw[1])
         self.order_count = int(raw[2])
 
     def __repr__(self):
         return 'Order ({}, {}, {}, {})'.format(
-            self.type, self.price,
+            self.order_type, self.price,
             self.amount, self.order_count)
 
     @property
