@@ -30,7 +30,6 @@ def store_dict(filename, dic):
 def get(url_suffix, **params):
     """Initiates an HTTP GET request."""
     url = '{}/{}'.format(BASE_URL, url_suffix)
-
     res = requests.get(url, params=params)
 
     # TODO: Refactor the following section to eliminate duplicated code
@@ -182,7 +181,57 @@ def get_orderbook(order_type=None):
 
 
 def get_detailed_ticker():
+    """
+    Fields:
+
+        timestamp : Unix timestamp in milliseconds of the last filled order.
+        last : Price of the last filled order.
+        bid : Best bid price.
+        ask : Best ask price.
+        low : Lowest price within the last 24 hours.
+        high : Highest price within the last 24 hours.
+        volume : Transaction volume within the last 24 hours.
+
+    Example response:
+
+        {
+            "timestamp":1394590350000,
+            "last":"663699",
+            "bid":"660001",
+            "ask":"663699",
+            "low":"642000",
+            "high":"663699",
+            "volume":"52.50203662"
+        }
+    """
     return get('ticker/detailed')
+
+
+def get_transactions(_time='hour'):
+    """
+    :param _time: The time period you want to query. If this parameter is
+    specified as 'minute', it queries data within the last minute, 'hour' means
+    the last hour, 'day' means the last 24 hours. Default : hour.
+
+    Fields:
+
+        timestamp : Timestamp of last filled order.
+        tid : Unique ID that identifies the transaction.
+        price : Transaction price in KRW.
+        amount : Transaction amount in BTC.
+
+    Example response:
+
+        [
+            {"timestamp":1389678052000,"tid":"22546","price":"569000","amount":"0.01000000"},
+            {"timestamp":1389678017000,"tid":"22545","price":"580000","amount":"0.01000000"},
+            {"timestamp":1389462921000,"tid":"22544","price":"569000","amount":"0.16348000"},
+            {"timestamp":1389462921000,"tid":"22543","price":"570000","amount":"0.20000000"},
+            {"timestamp":1389462920000,"tid":"22542","price":"578000","amount":"0.33652000"},
+            ...
+        ]
+    """
+    return get('transactions', time=_time)
 
 
 def get_user_info():

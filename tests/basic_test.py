@@ -56,6 +56,17 @@ def test_get_orderbook_by_type():
     assert isinstance(orderbook_asks, Iterable)
 
 
+def test_get_transactions():
+    transactions = get_transactions()
+    assert type(transactions) == list
+
+    for t in transactions:
+        assert 'timestamp' in t
+        assert 'tid' in t
+        assert 'price' in t
+        assert 'amount' in t
+
+
 def test_get_user_info():
     info = get_user_info()
 
