@@ -1,8 +1,9 @@
 language: python
 
 python:
-- '2.7'
-- '3.4'
+- '3.6'
+- '3.7'
+- '3.8'
 - 'pypy'
 
 install:
@@ -18,7 +19,3 @@ after_success:
 env:
   global:
   - TIMEOUT=1000
-  - secure: NnHaSSVGzY6uzX/DCkuC4gzGQKU33o/3xLQBwV/5/zGh/SN11zTP5WMHuSgXxzTE8t9kMcYLjrGzii8Ji43yo3g4Q0WAWRjk+HSR+vuPTVPbDrhqfHWvCyJ3anY7rlISvGPJ/g4CA9d/MxGqlBRq6RV6F6X6yYlXQEnzUYaVZ68=
-  - secure: CvW2vp6KORBJjjWxEp0rkdbnPUlHhADh4TmXEWIOOnNAZHjoWO6Ziq1/Bu4LEI36dHWScVTr8NUWkzNjODFFXOMUfBl5vpiCD7bI98GmB140+QpCso96qdopAjviBvM3UKSJSEOAA99OKRUjLZKNNAOYWGuWtTOPUq9mIyzAEYQ=
-  - secure: J+QkxcWekzq+Wcn7egdmrbo0rYFde/LjJglAPtN1YQ2Uwv3cJJyzTrvJkqOjGvq5CxZgNjlcPcCbZTM2tSWT8a+a4ScZKuDK/X8/q27DS9KTfAVh9GdLK/pA06xTT3ZLe6blDAehvXTFA3sBmAW562par9maerNMaMdWjwqOEcI=
-  - secure: gaKggFR+oM/O3+ju05xsic6u+hxlMkR+5wa9h/752z0xwfaoPPY2U53i0nmK6TPLb2L5QFEPrpjFG1hnAAeTP1BfD90vtIH5bNWQr9uS2i3s9wbsAptG9GtJSY6lJLkmdRxAyz0NUNMLHWO/NxLj+io23BpyNus87i+Wdlekk58=

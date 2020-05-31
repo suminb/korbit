@@ -69,9 +69,9 @@ def access_token():
         token_dict = post('oauth2/access_token',
                           client_id=os.environ['KORBIT_API_KEY'],
                           client_secret=os.environ['KORBIT_API_SECRET'],
-                          username=os.environ['KORBIT_API_USERNAME'],
-                          password=os.environ['KORBIT_API_PASSWORD'],
-                          grant_type='password')
+                          # username=os.environ['KORBIT_API_USERNAME'],
+                          # password=os.environ['KORBIT_API_PASSWORD'],
+                          grant_type='client_credentials')
 
         token_dict['issued_at'] = time.time()  # current Unix time
 

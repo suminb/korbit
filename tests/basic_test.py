@@ -1,24 +1,21 @@
 from __future__ import absolute_import
-from korbit.api import *
+
 from collections import Iterable
+
+import pytest
+
+from korbit.api import *
 
 
 def test_get_constants():
     constants = get_constants()
 
-    assert 'maxBtcPrice' in constants
-    assert 'maxBtcWithdrawal' in constants
-    assert 'minBtcOrder' in constants
-    assert 'minBtcPrice' in constants
-    assert 'maxBtcOrder' in constants
-    assert 'btcWithdrawalFee' in constants
-    assert 'transactionFee' in constants
-    assert 'krwWithdrawalFee' in constants
-    assert 'minKrwWithdrawal' in constants
-    assert 'minBtcWithdrawal' in constants
-    assert 'maxKrwWithdrawal' in constants
+    assert 'exchange' in constants
+    assert 'btc_krw' in constants['exchange']
+    assert 'eth_krw' in constants['exchange']
 
 
+@pytest.mark.skip('API no longer exists')
 def test_get_wallet():
     wallet = get_wallet()
 
@@ -67,6 +64,7 @@ def test_get_transactions():
         assert 'amount' in t
 
 
+@pytest.mark.skip('API no longer exists')
 def test_get_user_info():
     info = get_user_info()
 
@@ -74,6 +72,7 @@ def test_get_user_info():
     assert 'prefs' in info and type(info['prefs']) == dict
 
 
+@pytest.mark.skip('API no longer exists')
 def test_buying_order():
     # TODO: Check for the current balance before running this test case
     res = place_order(order='buy', price=100000, coin_amount=0.1)
@@ -84,6 +83,7 @@ def test_buying_order():
     cancel_order(res['orderId'])
 
 
+@pytest.mark.skip('API no longer exists')
 def test_selling_order():
     res = place_order(order='sell', price=1000000, coin_amount=0.1)
 

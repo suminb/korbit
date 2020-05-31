@@ -10,6 +10,19 @@ Python Korbit
    :target: https://coveralls.io/r/suminb/korbit?branch=master
 
 
+Environment Variables
+---------------------
+
+You will need to set a few environment variables to make this library work
+properly.  A skeleton code is provided in ``provision-dist.sh``. Make a copy
+and fill in values. API keys can be issued in https://www.korbit.co.kr/my/api/.
+
+.. code-block::
+
+   cp provision-dist.sh provision.sh
+   source provision.sh
+
+
 API Call Examples
 -----------------
 
