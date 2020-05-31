@@ -180,6 +180,10 @@ def get_orderbook(order_type=None):
         return orderbook
 
 
+def get_ticker(currency_pair='btc_krw'):
+    return get('ticker', currency_pair=currency_pair)
+
+
 def get_detailed_ticker():
     """
     Fields:
