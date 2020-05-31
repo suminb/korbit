@@ -60,6 +60,18 @@ def test_ticker(currency_pair):
     assert 'last' in ticker
 
 
+def test_detailed_ticker_all():
+    ticker = get_detailed_ticker_all()
+
+    currencies = ['btc_krw', 'eth_krw']
+    fields = ['timestamp', 'last', 'open', 'bid', 'ask', 'low', 'high',
+              'volume', 'change', 'changePercent']
+    for currency in currencies:
+        assert currency in ticker
+        for field in fields:
+            assert field in ticker[currency]
+
+
 def test_get_transactions():
     transactions = get_transactions()
     assert type(transactions) == list

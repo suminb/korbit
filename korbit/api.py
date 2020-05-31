@@ -211,6 +211,11 @@ def get_detailed_ticker():
     return get('ticker/detailed')
 
 
+def get_detailed_ticker_all():
+    """Detailed ticker for all markets (BTC, ETH, FET, etc.)"""
+    return get('ticker/detailed/all')
+
+
 def get_transactions(_time='hour'):
     """
     :param _time: The time period you want to query. If this parameter is
