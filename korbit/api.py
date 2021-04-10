@@ -180,6 +180,10 @@ def get_orderbook(order_type=None):
         return orderbook
 
 
+def get_ticker(currency_pair='btc_krw'):
+    return get('ticker', currency_pair=currency_pair)
+
+
 def get_detailed_ticker():
     """
     Fields:
@@ -205,6 +209,11 @@ def get_detailed_ticker():
         }
     """
     return get('ticker/detailed')
+
+
+def get_detailed_ticker_all():
+    """Detailed ticker for all markets (BTC, ETH, FET, etc.)"""
+    return get('ticker/detailed/all')
 
 
 def get_transactions(_time='hour'):
